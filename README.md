@@ -1,4 +1,4 @@
-# Large-Scale Data Analysis Using MapReduce
+# Large-Scale Iowa Liquor Sales Data Analysis Using MapReduce
 
 ## Assignment 1 - Semester 7
 ## Module: Cloud Computing (EC7205)
