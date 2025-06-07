@@ -21,25 +21,23 @@ This project implements a custom MapReduce job using Hadoop to analyze a large d
 
 ## 📂 Dataset
 
-- **Dataset Name:** [e.g., Amazon Product Reviews / Synthetic Weather Logs]  
-- **Source:** [Kaggle / Custom-generated]  
-- **Size:** 100,000+ rows  
+- **Dataset Name:** [Iowa Liquor Sales]  
+- **Source:** [Kaggle / https://www.kaggle.com/datasets/residentmario/iowa-liquor-sales]  
+- **Size:** 12 million+ rows  
 - **Description:**  
-  > [Brief explanation of the dataset and relevance to the task.  
-  If synthetic, explain how it was generated, which tools were used, and why it was structured that way.]
+  > 12 million alcoholic beverage sales in the Midwest.
+  > The Iowa Department of Commerce requires that every store that sells alcohol in bottled form for off-the-premises consumption must hold a class "E" liquor license (an arrangement typical of most of the state     alcohol regulatory bodies). All alcoholic sales made by stores registered thusly with the Iowa Department of Commerce are logged in the Commerce department system, which is in turn published as open data by       the State of Iowa.
 
 ---
 
-## 🧠 Problem Statement / Task
-
 **MapReduce Task Chosen:**  
-> [e.g., Product Ratings Aggregation – compute average product rating]
+Sales Aggregation by City – compute total sales volume per city
 
 **Map Phase Logic:**  
-> [Describe what the mapper extracts and emits]
+The mapper extracts city names and corresponding sale amounts, emitting key-value pairs of (city, sale_amount)
 
 **Reduce Phase Logic:**  
-> [Describe how the reducer processes grouped data]
+The reducer processes grouped data by city, summing all sale amounts to calculate total sales per city
 
 ---
 
@@ -56,7 +54,7 @@ We used **Apache Hadoop** for local execution.
 ### Installation
 
 ```bash
-# Example commands (update with your setup)
+
 sudo apt update
 sudo apt install openjdk-8-jdk
 wget https://downloads.apache.org/hadoop/common/hadoop-3.3.6/hadoop-3.3.6.tar.gz
@@ -72,7 +70,17 @@ tar -xvzf hadoop-3.3.6.tar.gz
 
 ![Hadoop Installation Screenshot](screenshots/namenodeformat.png)
 
+
 ### Verify Hadoop Installation
+
+Start Hadoop Services
+Ensure Hadoop services are running before executing any job:
+
+```bash
+start-dfs.sh
+start-yarn.sh
+jps
+```
 
 ![Hadoop Installation Screenshot](screenshots/workingstate.png)
 
@@ -84,7 +92,21 @@ tar -xvzf hadoop-3.3.6.tar.gz
 
 ![Hadoop Installation Screenshot](screenshots/YARN.png)
 
-## Running the Process
+## Upload Dataset to HDFS
+
+```bash
+hadoop fs -put input/Iowa_Liquor_Sales.csv /input
+```
+
+## Run the MapReduce Job
+
+```bash
+hadoop jar $HADOOP_HOME/share/hadoop/tools/lib/hadoop-streaming-3.3.6.jar \
+-mapper src/mapper.py \
+-reducer src/reducer.py \
+-input /input/Iowa_Liquor_Sales.csv \
+-output /output_sales_by_city
+```
 
 ### Running a Hadoop Streaming job using mapper.py and reducer.py on the Iowa_Liquor_Sales.csv dataset 
 
@@ -98,6 +120,10 @@ tar -xvzf hadoop-3.3.6.tar.gz
 
 ![Hadoop Installation Screenshot](screenshots/Streaming-3.jpeg)
 
-### Output
+### View Output
+
+```bash
+hadoop fs -cat /output_sales_by_city/part-00000
+```
 
 ![Hadoop Installation Screenshot](screenshots/output.jpeg)
