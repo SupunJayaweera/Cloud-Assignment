@@ -68,6 +68,20 @@ tar -xvzf hadoop-3.3.6.tar.gz
 
 ![Hadoop Installation Screenshot](screenshots/config.png)
 
-### Configuring Hadoop
+### Run Hadoop NameNode Format 
 
 ![Hadoop Installation Screenshot](screenshots/namenodeformat.png)
+
+### Verify Hadoop Installation
+
+![Hadoop Installation Screenshot](screenshots/workingstate.png)
+
+### HDFS Web UI
+
+![Hadoop Installation Screenshot](screenshots/HDFS.png)
+
+### YARN Web UI
+
+![Hadoop Installation Screenshot](screenshots/YARN.png)
+
+
