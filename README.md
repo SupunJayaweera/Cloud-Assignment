@@ -58,7 +58,7 @@ We used **Apache Hadoop** for local execution.
 ```bash
 
 sudo apt update
-sudo apt install openjdk-8-jdk
+sudo apt install openjdk-11-jdk
 wget https://downloads.apache.org/hadoop/common/hadoop-3.3.6/hadoop-3.3.6.tar.gz
 tar -xvzf hadoop-3.3.6.tar.gz
 ```
