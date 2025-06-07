@@ -49,7 +49,7 @@ We used **Apache Hadoop** for local execution.
 
 - Java 8+
 - Hadoop 3.3.6
-- (Optional: Python, if used for preprocessing)
+- Python
 
 ### Installation
 
@@ -127,3 +127,47 @@ hadoop fs -cat /output_sales_by_city/part-00000
 ```
 
 ![Hadoop Installation Screenshot](screenshots/output.jpeg)
+
+
+# Results and Interpretation #
+
+This section outlines the technical approach used for the project, summarizes the findings from the data analysis, and offers an interpretation of the results.
+
+## Approach
+The primary objective of this project was to perform a large-scale data analysis using Hadoop MapReduce to determine the total liquor sales for each city from the Iowa Liquor Sales dataset.
+We used Hadoop Streaming with custom Python mapper and reducer scripts to aggregate total liquor sales by city from the Iowa_Liquor_Sales.csv dataset.
+
+The task was accomplished by following these steps:
+
+1. Environment Setup: A Hadoop environment was configured on an Ubuntu Virtual Machine to process the dataset.
+2. Dataset: The "Iowa Liquor Sales" dataset was sourced from Kaggle, containing over 37 million sales records.
+3. MapReduce Implementation:
+* A Mapper script (mapper.py), written in Python, was developed to process the input Iowa_Liquor_Sales.csv file. The script reads each CSV line, extracts the City and Sale (Dollars) fields, and emits a key-value pair of (City, SaleAmount).
+* A Reducer script (reducer.py), also in Python, receives the intermediate data grouped by city. For each city, it sums the sales amounts to calculate the total sales. The final output is a key-value pair of (City, TotalSales
+4. Execution: The job was launched on HDFS. The job was executed on the Hadoop cluster using the Hadoop Streaming utility, which processed approximately 30.8 GB of data and nearly 38 million records.
+Command: hadoop jar /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming-*.jar -files mapper.py,reducer.py -input /liquor_sales/Iowa_Liquor_Sales.csv -output /liquor_sales/output_sales_by_city_new -mapper "python3 mapper.py" -reducer "python3 reducer.py"
+5. Final results were inspected:
+Command: hdfs dfs -cat /liquor_sales/output_sales_by_city_new/part-00000
+
+## Sample Results
+The MapReduce job successfully aggregated the total liquor sales for every city present in the dataset. The final output provides a simple, aggregated list where each line contains a city name followed by its total sales figure.
+
+For example, here are the first twenty lines of the output (city → total sales in USD). These results show that major cities had significantly high sales volumes:
+Ankeny: $199,392,504.45
+Altoona: $9,540,815.01
+Ames: $32,371,216.25
+
+The job successfully processed the full dataset, demonstrating the capability of MapReduce to handle large-scale data aggregation tasks efficiently.
+
+## Interpretation
+Performance & Accuracy: 
+A key observation from the output is a data cleanliness issue. 
+Duplicate city names with different letter casing (e.g., ACKLEY vs. Ackley) were treated as distinct keys.
+The aggregation resulted in separate entries for the same city (e.g., "ACKLEY" and "Ackley", or "Adair" and "adair"). 
+This means the reported sales for these cities are split and not fully aggregated.
+
+Data Quality Note:
+A small post-processing step to normalize casing to merge these entries for better aggregation.
+The project could be extended to perform more complex analyses like calculating the total sales per product category, aggregating sales by region , or identifying the hottest/coldest sales day per year by incorporating date information. 
+
+Overall, the MapReduce job completed the full dataset, demonstrating Hadoop’s scalability for aggregating tens of millions of sales records.
