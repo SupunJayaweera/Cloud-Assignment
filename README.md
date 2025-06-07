@@ -84,4 +84,20 @@ tar -xvzf hadoop-3.3.6.tar.gz
 
 ![Hadoop Installation Screenshot](screenshots/YARN.png)
 
+## Running the Process
 
+### Running a Hadoop Streaming job using mapper.py and reducer.py on the Iowa_Liquor_Sales.csv dataset 
+
+![Hadoop Installation Screenshot](screenshots/Streamingjob.jpeg)
+
+### Processing the Hadoop Streaming job
+
+![Hadoop Installation Screenshot](screenshots/Streamingjob-2.jpeg)
+
+### Hadoop Streaming job completed successfully. Output saved to /Liquor_sales/output_sales_by_city_new. Over 12.5 million records processed with no shuffle error (both images) 
+
+![Hadoop Installation Screenshot](screenshots/Streaming-3.jpeg)
+
+### Output
+
+![Hadoop Installation Screenshot](screenshots/output.jpeg)
