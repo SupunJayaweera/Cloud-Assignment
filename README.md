@@ -50,7 +50,7 @@ We used **Apache Hadoop** for local execution.
 ### Prerequisites
 
 - Java 8+
-- Hadoop 3.x
+- Hadoop 3.3.6
 - (Optional: Python, if used for preprocessing)
 
 ### Installation
@@ -61,3 +61,5 @@ sudo apt update
 sudo apt install openjdk-8-jdk
 wget https://downloads.apache.org/hadoop/common/hadoop-3.3.6/hadoop-3.3.6.tar.gz
 tar -xvzf hadoop-3.3.6.tar.gz
+
+![alt text](screenshots/installation.png)
